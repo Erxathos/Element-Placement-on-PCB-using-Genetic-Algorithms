@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SQLite">
+    <Position X="11.5" Y="2.5" Width="1.5" />
+    <Members>
+      <Method Name="btn_Click" Hidden="true" />
+      <Method Name="Load" Hidden="true" />
+      <Method Name="OpenDB" Hidden="true" />
+      <Method Name="Start" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAgCAAACQQAAAAAAABAAgAAAIAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Assets\Scripts\SQLite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="View">
+    <Position X="9.5" Y="2" Width="1.5" />
+    <Members>
+      <Field Name="DebugTxt" Hidden="true" />
+      <Field Name="numPerson" Hidden="true" />
+      <Method Name="OnDestroy" Hidden="true" />
+      <Field Name="outputText" Hidden="true" />
+      <Field Name="PCross" Hidden="true" />
+      <Field Name="Plate_prefab" Hidden="true" />
+      <Field Name="PMut" Hidden="true" />
+      <Field Name="Rotator" Hidden="true" />
+      <Method Name="setInput" Hidden="true" />
+      <Method Name="Start" Hidden="true" />
+      <Method Name="Update" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EBQBAAAEACBAAIAAAAoEAEAEAAAAAAAAAAAAAAQAACA=</HashCode>
+      <FileName>Assets\Scripts\View.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diplom.Chromosome">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="Chromosome" Hidden="true" />
+      <Method Name="Mutation" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAEAAAAE=</HashCode>
+      <FileName>Assets\Scripts\GA\Chromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diplom.CircuitElement">
+    <Position X="5.25" Y="3.75" Width="1.5" />
+    <Members>
+      <Property Name="CaseName" Hidden="true" />
+      <Method Name="CircuitElement" Hidden="true" />
+      <Method Name="Refresh" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABABAAAAAAAAAAEQAAAAAAAACAAJgQgAAAgA=</HashCode>
+      <FileName>Assets\Scripts\GA\CircuitElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diplom.DataStorage">
+    <Position X="7.5" Y="4" Width="1.5" />
+    <Members>
+      <Property Name="AlgTime" Hidden="true" />
+      <Property Name="IndexBest" Hidden="true" />
+      <Field Name="NCross" Hidden="true" />
+      <Field Name="NMut" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAIAAAQgAAAAAAgCgAAogBQAECA=</HashCode>
+      <FileName>Assets\Scripts\GA\DataStorage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diplom.Generation">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="decode" Hidden="true" />
+      <Method Name="Generation" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AwBAAAAAAAAAAAACAAAAAAAAEAAAAABAAEAAUEAAAAE=</HashCode>
+      <FileName>Assets\Scripts\GA\Generation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diplom.Main">
+    <Position X="5.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAACAAAAAAAAAAAAAAAAAAAACAAAAAgABAAAQQQ=</HashCode>
+      <FileName>Assets\Scripts\GA\Main.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diplom.Person">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="chromosome" Hidden="true" />
+      <Method Name="Person" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GA\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="diplom.PP">
+    <Position X="9.5" Y="4.25" Width="1.5" />
+    <Members>
+      <Method Name="Refresh" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABABAAAAAAAAAAEAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GA\PP.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
