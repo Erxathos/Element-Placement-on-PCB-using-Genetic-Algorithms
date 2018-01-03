@@ -107,7 +107,8 @@ namespace GeneticAlgorithm
                 for (int i = a; i < x1; i++)
                 {
                     if ((j % 2) == 0)
-                    {//скрещивание
+                    {
+                        //Crossingover
                         p1.Chromosome.Genes[i] = _1.Chromosome.Genes[i];
                         p2.Chromosome.Genes[i] = _2.Chromosome.Genes[i];
                     }
@@ -129,7 +130,6 @@ namespace GeneticAlgorithm
             {
                 p1.isSelected = false;
             }
-
             bool loop = true;
             for (int i = 0; i < DataStorage.NPer; i++)
             {

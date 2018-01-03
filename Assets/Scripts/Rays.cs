@@ -71,8 +71,10 @@ public class Rays : MonoBehaviour
                     {
                         if (DataStorage.C[j, numElem] != 0)
                         {
-                            Vector3 a = new Vector3((float)(DataStorage.cm[numElem].x + DataStorage.cm[numElem].Width / 2), 1, (float)(DataStorage.cm[numElem].y + DataStorage.cm[numElem].Height / 2));
-                            Vector3 b = new Vector3((float)(DataStorage.cm[j].x + DataStorage.cm[j].Width / 2), 1, (float)(DataStorage.cm[j].y + DataStorage.cm[j].Height / 2));
+                            Vector3 a = new Vector3((float)(DataStorage.cm[numElem].x + DataStorage.cm[numElem].Width / 2), 1,
+                                (float)(DataStorage.cm[numElem].y + DataStorage.cm[numElem].Height / 2));
+                            Vector3 b = new Vector3((float)(DataStorage.cm[j].x + DataStorage.cm[j].Width / 2), 1,
+                                (float)(DataStorage.cm[j].y + DataStorage.cm[j].Height / 2));
                             Line = Instantiate(Line_prefab.transform) as Transform;
                             lineRenderer = Line.GetComponent<LineRenderer>();
                             lineRenderer.SetPositions(new Vector3[] { a, b });

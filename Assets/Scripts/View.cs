@@ -68,19 +68,12 @@ public class View : MonoBehaviour
 
     private void ShowElements()
     {
-        try
-        {
-            Messenger.Broadcast(GameEvent.DESTROY);
-        }
-        catch
-        { }
+        SendDestroyMessage();
 
         Transform Plate = Instantiate(Plate_prefab) as Transform;
-        Plate.localScale = new Vector3(PP.Width, PP.Height, 1);
-        Plate.parent = Rotator; //Change the Y axis to Z
-        Plate.localEulerAngles = Vector3.zero;
+        NewPlate(Plate);
 
-        Transform Elem, pwDissipation;
+        Transform Elem;
         List<GameObject> lst = new List<GameObject>();
         foreach (string caseName in DataStorage.caseNames)
             lst.Add(Resources.Load("Elements/" + caseName) as GameObject);
@@ -90,9 +83,10 @@ public class View : MonoBehaviour
             Elem = Instantiate(lst[DataStorage.caseNames.IndexOf(DataStorage.cm[i].CaseName)].transform) as Transform;
 
             Elem.parent = Rotator;
-            Elem.localPosition = new Vector3(DataStorage.cm[i].x + DataStorage.cm[i].Width / 2, DataStorage.cm[i].y + DataStorage.cm[i].Height / 2, 0); // make it at the exact position of the spawner
+            Elem.localPosition = new Vector3(DataStorage.cm[i].x + DataStorage.cm[i].Width / 2, 
+                DataStorage.cm[i].y + DataStorage.cm[i].Height / 2, 0); // make it at the position of the spawner
 
-            Elem.localEulerAngles = Vector3.zero;
+            Elem.localEulerAngles = Vector3.zero; //default angle
             if (DataStorage.cm[i].isVertical == true)
             {
                 Elem.localEulerAngles = new Vector3(Elem.rotation.x, Elem.rotation.y, Elem.rotation.z + 90);
@@ -101,32 +95,19 @@ public class View : MonoBehaviour
             Elem.gameObject.name = i.ToString();
             Elem.Find("Label").GetComponent<TextMesh>().text = DataStorage.cm[i].Name;
 
-            pwDissipation = Elem.Find("Sphere");
-            if (pwDissipation != null)
-            {
-                float t = (DataStorage.cm[i].pwDissipation * 3);
-                pwDissipation.localScale = new Vector3(t, t, t);
-            }
-            pwDissipation = null;
             T = false;
         }
     }
 
     public void Assembling_Draft()
     {
-        try
-        {
-            Messenger.Broadcast(GameEvent.DESTROY);
-        }
-        catch
-        { }
+        SendDestroyMessage();
         GameObject elem_prefab = Resources.Load("Elements/DraftElement") as GameObject;
 
         Transform Plate = Instantiate((Resources.Load("Elements/DraftPlate") as GameObject).transform,
             new Vector3(PP.Width / 2, -0.5f, PP.Height / 2), Quaternion.identity) as Transform;
-        Plate.localScale = new Vector3(PP.Width, PP.Height, 1);
-        Plate.parent = Rotator;
-        Plate.localEulerAngles = Vector3.zero;
+
+        NewPlate(Plate);
 
         Transform Elem;
         for (int i = 0; i < DataStorage.N; i++)
@@ -149,21 +130,24 @@ public class View : MonoBehaviour
         SaveButton.interactable = false;
     }
 
+    private static void SendDestroyMessage()
+    {
+        try
+        {
+            Messenger.Broadcast(GameEvent.DESTROY);
+        }
+        catch
+        { }
+    }
+
     public Transform elemT;
     public void viewTM() //Thermal map button
     {
         if (!T) //if thermal map is not showing
         {
-            try
-            {
-                Messenger.Broadcast(GameEvent.DESTROY); //destroy all on the scene
-            }
-            catch
-            { }
-            Transform Plate = Instantiate(Plate_prefab) as Transform; 
-            Plate.parent = Rotator; //перевод платы в 2D - плоскость
-            Plate.localEulerAngles = Vector3.zero;
-            Plate.localScale = new Vector3(PP.Width, PP.Height, 1);
+            SendDestroyMessage();
+            Transform Plate = Instantiate(Plate_prefab) as Transform;
+            NewPlate(Plate);
             Transform Elem;
             for (int i = 0; i < DataStorage.N; i++)
             {
@@ -180,13 +164,20 @@ public class View : MonoBehaviour
                 }
             }
             T = true;
-            DebugText("Отображение тепловыделения элементов");
+            DebugText("Power dissipation");
         }
         else
         {
             ShowElements();
-            DebugText("Отображение элементов");
+            DebugText("Elements");
         }
+    }
+
+    private void NewPlate(Transform Plate)
+    {
+        Plate.parent = Rotator;
+        Plate.localEulerAngles = Vector3.zero;
+        Plate.localScale = new Vector3(PP.Width, PP.Height, 1);
     }
 
     public void projectChanged()
@@ -215,8 +206,8 @@ public class View : MonoBehaviour
     {
         DataStorage.p2 = DataStorage.p2_start * criterion.value;
         DataStorage.p1 = (1 - criterion.value) * DataStorage.p1_start;
-        DebugText("Критерий 1: " + (int)(criterion.value * 100) + "%" + System.Environment.NewLine);
-        DebugAppendText("Критерий 2: " + (int)((1 - criterion.value) * 100) + "%" + System.Environment.NewLine);
+        DebugText("Criterion 1: " + (int)(criterion.value * 100) + "%" + System.Environment.NewLine);
+        DebugAppendText("Criterion 2: " + (int)((1 - criterion.value) * 100) + "%" + System.Environment.NewLine);
     }
 
     public void numPersonChanged() //changes number of persons in the GA
