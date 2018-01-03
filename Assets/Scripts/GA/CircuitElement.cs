@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace diplom
+namespace GeneticAlgorithm
 {
     public class CircuitElement
     {

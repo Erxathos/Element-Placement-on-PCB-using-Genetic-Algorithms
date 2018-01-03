@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace diplom
+namespace GeneticAlgorithm
 {
     public class Main : UnityEngine.MonoBehaviour
     {
@@ -9,10 +9,9 @@ namespace diplom
 
         void NewGeneration()
         {
-            //скрещивание
-            OutbreedingCross();
+            OutbreedingCross(); //Proceed crossingover
             Generation.SumFitness = 0;
-            //объединение популяций
+            //Combine populations
             for (int i = 0; i < DataStorage.NPer; i++)
             {
                 g3.p[i] = g1.p[i];
@@ -21,22 +20,19 @@ namespace diplom
             {
                 g3.p[i + DataStorage.NPer] = g2.p[i];
             }
-
-            //мутация
-            g3.Mutation();
-            //декодирование всех хромосом
-            g3.decode();
-            //селекция
-            Selection();
+            
+            g3.Mutation(); 
+            g3.decode(); //Decode all chromosomes
+            Selection(); //Selection
         }
 
-        private void testAlg()
+        private void TestAlg()
         {
             Generation test = new Generation(10);
             test.decodeTest();
         }
 
-        public System.Collections.IEnumerator main()
+        public System.Collections.IEnumerator MainCoroutine()
         {
             yield return null;
             Stopwatch sWatch = new Stopwatch();
@@ -44,51 +40,38 @@ namespace diplom
 
             DataStorage.Reload();
 
-            //try
-            //{
-            testAlg();
+            TestAlg(); //make a test generation to estimate fitness functions
 
             g1 = new Generation(DataStorage.NPer);
             g2 = new Generation(DataStorage.NCross);
             g3 = new Generation(DataStorage.NPer + DataStorage.NCross);
 
             double temp = DataStorage.Best, before = DataStorage.Best;
-            string s = "";
 
             for (int i = 2, cnt = 1, waitFor = 20; cnt < waitFor; i++) //цикл while с объявлением переменных
             {
-                NewGeneration(); //создается новое поколение
+                NewGeneration(); //create a new generation
 
-                s += (i + " " + temp) + Environment.NewLine;
-
-                if (temp > DataStorage.Best) //если найдено лучшее решение
+                if (temp > DataStorage.Best) //if this solution is better
                 {
-                    temp = DataStorage.Best; //запись значения лучшего решения
+                    temp = DataStorage.Best; //save this solution
                     cnt = 1;
                 }
-                    
 
                 else cnt++;
                 if (cnt == waitFor)
                     DataStorage.IndexBest = i - cnt;
             }
-            UnityEngine.Debug.Log(s);
-            Generation.Decode(DataStorage.BestPerson); //декодирование лучшего решения
+            Generation.Decode(DataStorage.BestPerson); //decode the best solution
             sWatch.Stop();
 
-            View.DebugText("Время работы алгоритма: " + (sWatch.ElapsedMilliseconds / 1000) + " сек.");
+            View.DebugText("Action took " + (sWatch.ElapsedMilliseconds / 1000) + " sec");
 
             if (before != DataStorage.Best)
                 Messenger.Broadcast(GameEvent.GUI_UPDATED);
-
-            //}
-            //catch (Exception e)
-            //{
-            //    View.DebugText(e.Message);
-            //}
         }
 
-        void OutbreedingCross()
+        void OutbreedingCross() //make a crossingover between maximal different persons
         {
             for (int i = 0; i < DataStorage.NCross / 2; i++)
             {
@@ -115,7 +98,7 @@ namespace diplom
 
         void Crossingover(Person _1, Person _2, out Person p1, out Person p2)
         {
-            int a = 0; //начало хромосомы
+            int a = 0; //starting point in the chromosome
             int x = DataStorage.N - 3; //максимальный номер гена для первой точки скрещивания
             int x1 = UnityEngine.Random.Range(a, x); //случайный номер первого гена
             p1 = new Person(); p2 = new Person();
@@ -140,19 +123,19 @@ namespace diplom
             }
         }
 
-        void Selection()
+        void Selection() //roulette selection
         {
-            bool loop = true;
             foreach (Person p1 in g3.p)
             {
                 p1.isSelected = false;
             }
+
+            bool loop = true;
             for (int i = 0; i < DataStorage.NPer; i++)
             {
                 while (loop)
                 {
                     double slice = UnityEngine.Random.Range(0.0f, 1.0f) * Generation.SumFitness;
-
                     double curFitness = 0.0;
                     foreach (Person p1 in g3.p)
                     {

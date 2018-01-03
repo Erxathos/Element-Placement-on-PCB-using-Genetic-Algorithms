@@ -1,4 +1,4 @@
-﻿using diplom;
+﻿using GeneticAlgorithm;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,7 +33,7 @@ public class View : MonoBehaviour
         SaveButton.interactable = false;
         TButton.interactable = false;
         DebugTxt = GameObject.Find("Log_label").GetComponent("Text") as Text;
-        Messenger.AddListener(GameEvent.GUI_UPDATED, GUI_UPDATED);
+        Messenger.AddListener(GameEvent.GUI_UPDATED, ShowElements);
 
         project_num.ClearOptions();
         plate_num.ClearOptions();
@@ -51,7 +51,7 @@ public class View : MonoBehaviour
 
     void OnDestroy()
     {
-        Messenger.RemoveListener(GameEvent.GUI_UPDATED, GUI_UPDATED);
+        Messenger.RemoveListener(GameEvent.GUI_UPDATED, ShowElements);
     }
 
     static public void DebugText(string s)
@@ -66,7 +66,7 @@ public class View : MonoBehaviour
             DebugTxt.text += s;
     }
 
-    private void GUI_UPDATED()
+    private void ShowElements()
     {
         try
         {
@@ -77,7 +77,7 @@ public class View : MonoBehaviour
 
         Transform Plate = Instantiate(Plate_prefab) as Transform;
         Plate.localScale = new Vector3(PP.Width, PP.Height, 1);
-        Plate.parent = Rotator; //перевод платы в 2D - плоскость
+        Plate.parent = Rotator; //Change the Y axis to Z
         Plate.localEulerAngles = Vector3.zero;
 
         Transform Elem, pwDissipation;
@@ -87,24 +87,24 @@ public class View : MonoBehaviour
 
         for (int i = 0; i < DataStorage.N; i++)
         {
-            Elem = Instantiate(lst[DataStorage.caseNames.IndexOf(DataStorage.km[i].CaseName)].transform) as Transform;
+            Elem = Instantiate(lst[DataStorage.caseNames.IndexOf(DataStorage.cm[i].CaseName)].transform) as Transform;
 
             Elem.parent = Rotator;
-            Elem.localPosition = new Vector3(DataStorage.km[i].x + DataStorage.km[i].Width / 2, DataStorage.km[i].y + DataStorage.km[i].Height / 2, 0); // make it at the exact position of the spawner
+            Elem.localPosition = new Vector3(DataStorage.cm[i].x + DataStorage.cm[i].Width / 2, DataStorage.cm[i].y + DataStorage.cm[i].Height / 2, 0); // make it at the exact position of the spawner
 
             Elem.localEulerAngles = Vector3.zero;
-            if (DataStorage.km[i].isVertical == true)
+            if (DataStorage.cm[i].isVertical == true)
             {
                 Elem.localEulerAngles = new Vector3(Elem.rotation.x, Elem.rotation.y, Elem.rotation.z + 90);
             }
 
             Elem.gameObject.name = i.ToString();
-            Elem.Find("Label").GetComponent<TextMesh>().text = DataStorage.km[i].Name;
+            Elem.Find("Label").GetComponent<TextMesh>().text = DataStorage.cm[i].Name;
 
             pwDissipation = Elem.Find("Sphere");
             if (pwDissipation != null)
             {
-                float t = (DataStorage.km[i].pwDissipation * 3);
+                float t = (DataStorage.cm[i].pwDissipation * 3);
                 pwDissipation.localScale = new Vector3(t, t, t);
             }
             pwDissipation = null;
@@ -120,17 +120,18 @@ public class View : MonoBehaviour
         }
         catch
         { }
-        Transform Elem;
         GameObject elem_prefab = Resources.Load("Elements/DraftElement") as GameObject;
+
         Transform Plate = Instantiate((Resources.Load("Elements/DraftPlate") as GameObject).transform,
             new Vector3(PP.Width / 2, -0.5f, PP.Height / 2), Quaternion.identity) as Transform;
         Plate.localScale = new Vector3(PP.Width, PP.Height, 1);
         Plate.parent = Rotator;
         Plate.localEulerAngles = Vector3.zero;
 
+        Transform Elem;
         for (int i = 0; i < DataStorage.N; i++)
         {
-            CircuitElement t = DataStorage.km[i];
+            CircuitElement t = DataStorage.cm[i];
             Elem = Instantiate(elem_prefab.transform) as Transform;
 
             Elem.Find("Scale").transform.localScale = new Vector3(t.Width - 3, t.Height - 3, 1);
@@ -142,48 +143,49 @@ public class View : MonoBehaviour
             Elem.localEulerAngles = Vector3.zero;
 
             Elem.gameObject.name = i.ToString();
-            Elem.Find("Label").GetComponent<TextMesh>().text = DataStorage.km[i].Name;
+            Elem.Find("Label").GetComponent<TextMesh>().text = DataStorage.cm[i].Name;
         }
         HiResScreenShots.TakeHiResShot();
         SaveButton.interactable = false;
     }
 
     public Transform elemT;
-    public void viewTM()
+    public void viewTM() //Thermal map button
     {
-        if (!T)
+        if (!T) //if thermal map is not showing
         {
             try
             {
-                Messenger.Broadcast(GameEvent.DESTROY);
+                Messenger.Broadcast(GameEvent.DESTROY); //destroy all on the scene
             }
             catch
             { }
-            Transform Plate = Instantiate(Plate_prefab) as Transform;
+            Transform Plate = Instantiate(Plate_prefab) as Transform; 
             Plate.parent = Rotator; //перевод платы в 2D - плоскость
             Plate.localEulerAngles = Vector3.zero;
             Plate.localScale = new Vector3(PP.Width, PP.Height, 1);
             Transform Elem;
             for (int i = 0; i < DataStorage.N; i++)
             {
-                if (DataStorage.km[i].pwDissipation > 1)
+                if (DataStorage.cm[i].pwDissipation > 1)
                 {
                     Elem = Instantiate(elemT) as Transform;
                     Elem.parent = Rotator;
-                    Elem.localPosition = new Vector3(DataStorage.km[i].x + DataStorage.km[i].Width / 2, DataStorage.km[i].y + DataStorage.km[i].Height / 2, -1); // make it at the exact position of the spawner
+                    Elem.localPosition = new Vector3(DataStorage.cm[i].x + DataStorage.cm[i].Width / 2,
+                        DataStorage.cm[i].y + DataStorage.cm[i].Height / 2, -1); // make it at the exact position of the spawner
                     Elem.localEulerAngles = Vector3.zero;
-                    float t = (DataStorage.km[i].pwDissipation * 6);
-                    Elem.localScale = new Vector3(t, t, t);
-                    Elem.gameObject.name = i.ToString();
+                    float p = (DataStorage.cm[i].pwDissipation * 5); //power dissipation value
+                    Elem.localScale = new Vector3(p, p, p);
+                    Elem.gameObject.name = i.ToString(); //set new name to game object
                 }
             }
             T = true;
-        DebugText("Отображение тепловыделения элементов");
+            DebugText("Отображение тепловыделения элементов");
         }
         else
         {
-            GUI_UPDATED();
-        DebugText("Отображение элементов");
+            ShowElements();
+            DebugText("Отображение элементов");
         }
     }
 
@@ -217,7 +219,7 @@ public class View : MonoBehaviour
         DebugAppendText("Критерий 2: " + (int)((1 - criterion.value) * 100) + "%" + System.Environment.NewLine);
     }
 
-    public void numPersonChanged()
+    public void numPersonChanged() //changes number of persons in the GA
     {
         if (int.Parse(numPerson.text) < 2)
             numPerson.text = 2 + "";
@@ -261,8 +263,8 @@ public class View : MonoBehaviour
 
     public void PerformMainCoroutine()
     {
-        DebugText("Подождите, выполняется размещение...");
-        StartCoroutine(this.gameObject.GetComponent<Main>().main());
+        DebugText("Placement in progress...");
+        StartCoroutine(this.gameObject.GetComponent<Main>().MainCoroutine());
         SaveButton.interactable = true;
         TButton.interactable = true;
     }

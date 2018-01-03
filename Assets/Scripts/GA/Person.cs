@@ -1,4 +1,4 @@
-﻿namespace diplom
+﻿namespace GeneticAlgorithm
 {
     public class Person
     {

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+//Class is used to destroy elements on message
 public class ElemDestroy : MonoBehaviour
 {
     void Start()

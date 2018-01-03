@@ -28,7 +28,7 @@ public class HiResScreenShots : MonoBehaviour
         {
             Vector3 t = transform.localPosition;
             Quaternion t1 = transform.localRotation;
-            transform.localPosition = new Vector3(diplom.PP.Width / 2, diplom.PP.Height / 2);
+            transform.localPosition = new Vector3(GeneticAlgorithm.PP.Width / 2, GeneticAlgorithm.PP.Height / 2);
             transform.localRotation = new Quaternion(0, 0, 0, 0);
 
             RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);

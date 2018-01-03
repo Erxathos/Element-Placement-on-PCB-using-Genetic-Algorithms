@@ -1,4 +1,4 @@
-﻿using diplom;
+﻿using GeneticAlgorithm;
 using Mono.Data.Sqlite;
 using System.Data;
 using UnityEngine;
@@ -38,25 +38,24 @@ public class SQLite : MonoBehaviour
     {
     }
 
-    public void LoadDataFromBD()
+    public void LoadDataFromDB()
     {
         try
         {
             OpenDB("placement.bytes");
-
             sendCmd("PRAGMA foreign_keys = ON");
 
             LoadData(DataStorage.CurrentProject, DataStorage.CurrentPlate);
 
-            View.DebugText("Данные успешно загруженны. " + System.Environment.NewLine);
-            View.DebugAppendText("Проект "+ "\"" + DataStorage.ProjectNames[DataStorage.CurrentProject - 1] + "\", " + "плата " + DataStorage.CurrentPlate + System.Environment.NewLine);
-            View.DebugAppendText("Количество элементов: " + DataStorage.km.Length + System.Environment.NewLine);
-            View.DebugAppendText("Ширина печатной платы: " + PP.Width);
+            View.DebugText("Data was loaded successfully. " + System.Environment.NewLine);
+            View.DebugAppendText("Project "+ "\"" + DataStorage.ProjectNames[DataStorage.CurrentProject - 1] + "\", " + "plate " + DataStorage.CurrentPlate + System.Environment.NewLine);
+            View.DebugAppendText("Number of elements: " + DataStorage.cm.Length + System.Environment.NewLine);
+            View.DebugAppendText("PCB width: " + PP.Width);
 
         }
         catch (System.Exception e)
         {
-            View.DebugText("Ошибка " + e.Message);
+            View.DebugText("Error " + e.Message);
         }
         finally
         {
@@ -86,7 +85,7 @@ public class SQLite : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            View.DebugText("Ошибка " + e.Message);
+            View.DebugText("Error " + e.Message);
         }
         finally
         {
@@ -118,7 +117,7 @@ public class SQLite : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            View.DebugText("Ошибка " + e.Message);
+            View.DebugText("Error " + e.Message);
         }
         finally
         {
@@ -147,10 +146,10 @@ public class SQLite : MonoBehaviour
         }
         reader.Close();
 
-        DataStorage.km = elements.ToArray(); ;
+        DataStorage.cm = elements.ToArray(); ;
         elements.Clear();
 
-        int n = DataStorage.km.Length; DataStorage.N = n; DataStorage.C = new int[n, n];
+        int n = DataStorage.cm.Length; DataStorage.N = n; DataStorage.C = new int[n, n];
 
         sqlQuery = "SELECT Plate.Width, Plate.Height FROM Plate WHERE (Plate.Number = " + numProject + ");"; 
         dbcmd.CommandText = sqlQuery;

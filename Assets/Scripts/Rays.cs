@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using diplom;
+using GeneticAlgorithm;
 using System.Collections;
 
 public class Rays : MonoBehaviour
@@ -65,25 +65,23 @@ public class Rays : MonoBehaviour
                 {
                     if (Lines != null)
                         Destroy(Lines.gameObject);
-                    Lines = new GameObject(); Lines.name = "Lines";
-
+                    Lines = new GameObject { name = "Lines" };
                     int numElem = System.Convert.ToInt32(filter.gameObject.name);
                     for (int j = 0; j < DataStorage.N; j++)
                     {
                         if (DataStorage.C[j, numElem] != 0)
                         {
-                            Vector3 a = new Vector3((float)(DataStorage.km[numElem].x + DataStorage.km[numElem].Width / 2), 1, (float)(DataStorage.km[numElem].y + DataStorage.km[numElem].Height / 2));
-                            Vector3 b = new Vector3((float)(DataStorage.km[j].x + DataStorage.km[j].Width / 2), 1, (float)(DataStorage.km[j].y + DataStorage.km[j].Height / 2));
+                            Vector3 a = new Vector3((float)(DataStorage.cm[numElem].x + DataStorage.cm[numElem].Width / 2), 1, (float)(DataStorage.cm[numElem].y + DataStorage.cm[numElem].Height / 2));
+                            Vector3 b = new Vector3((float)(DataStorage.cm[j].x + DataStorage.cm[j].Width / 2), 1, (float)(DataStorage.cm[j].y + DataStorage.cm[j].Height / 2));
                             Line = Instantiate(Line_prefab.transform) as Transform;
                             lineRenderer = Line.GetComponent<LineRenderer>();
                             lineRenderer.SetPositions(new Vector3[] { a, b });
                             Line.parent = Lines.transform;
                         }
                     }
-                    //posB = filter.transform.localPosition;
 
-                    View.DebugText(DataStorage.km[numElem].Name + System.Environment.NewLine);
-                    View.DebugAppendText("Мощность " + DataStorage.km[numElem].pwDissipation + "W");
+                    View.DebugText(DataStorage.cm[numElem].Name + System.Environment.NewLine);
+                    View.DebugAppendText("Power of the element is " + DataStorage.cm[numElem].pwDissipation + "W");
                 }
                 catch (System.Exception) { }
                 posB = new Vector3(hit.point.x, hit.point.z);

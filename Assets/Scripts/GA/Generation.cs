@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace diplom
+namespace GeneticAlgorithm
 {
     public class Generation
     {
@@ -51,9 +51,9 @@ namespace diplom
             int index = -1;
             for (int z = 0; z < DataStorage.N; z++)
             {
-				if (DataStorage.km[z].used == 0)
+				if (DataStorage.cm[z].used == 0)
                 {
-                    S = DataStorage.km[z].Width * DataStorage.km[z].Height;
+                    S = DataStorage.cm[z].Width * DataStorage.cm[z].Height;
                     if (S > max)
                     {
                         index = z;
@@ -71,9 +71,9 @@ namespace diplom
             int index = 0;
             for (int z = 0; z < DataStorage.N; z++)
             {
-				if (DataStorage.km[z].used == 0)
+				if (DataStorage.cm[z].used == 0)
                 {
-                    S = DataStorage.km[z].Width * DataStorage.km[z].Height;
+                    S = DataStorage.cm[z].Width * DataStorage.cm[z].Height;
                     if (S < min)
                     {
                         index = z;
@@ -86,24 +86,24 @@ namespace diplom
 
         static void Rotate(int index)
         {
-            int temp = DataStorage.km[index].Height;
-            DataStorage.km[index].Height = DataStorage.km[index].Width;
-            DataStorage.km[index].Width = temp;
+            int temp = DataStorage.cm[index].Height;
+            DataStorage.cm[index].Height = DataStorage.cm[index].Width;
+            DataStorage.cm[index].Width = temp;
         }
 
         static void FindPlace(int index) //i - текущая особь, index - размещаемый элемент
 		{
 			bool ok = false; //флаг продолжения работы
-			for (int h = 0; h < (PP.Height - DataStorage.km[index].Height); h++) //ДРП по вертикали
+			for (int h = 0; h < (PP.Height - DataStorage.cm[index].Height); h++) //ДРП по вертикали
 			{
 				if (ok) //если элемент размещен
 					break; //выход из цикла
-				for (int w = 0; w < (PP.Width - DataStorage.km[index].Width); w++) //по горизонтали
+				for (int w = 0; w < (PP.Width - DataStorage.cm[index].Width); w++) //по горизонтали
 				{
 					if (PP.plate[w, h] == -1) //если не занято
 					{
-						if (PP.plate[w, h + DataStorage.km[index].Height - 1] == -1)
-							for (int ht = h; ht < (h + DataStorage.km[index].Height); ht++) //по вертикали
+						if (PP.plate[w, h + DataStorage.cm[index].Height - 1] == -1)
+							for (int ht = h; ht < (h + DataStorage.cm[index].Height); ht++) //по вертикали
 							{
 								if (PP.plate[w, ht] == -1) //если не занято
 									ok = true;
@@ -119,8 +119,8 @@ namespace diplom
 						}
 						if (ok) //если по вертикали было свободно
 						{
-							if (PP.plate[w + DataStorage.km[index].Width - 1, h] == -1)
-								for (int wt = w; wt < (w + DataStorage.km[index].Width); wt++) //по горизонтали
+							if (PP.plate[w + DataStorage.cm[index].Width - 1, h] == -1)
+								for (int wt = w; wt < (w + DataStorage.cm[index].Width); wt++) //по горизонтали
 								{
 									if (PP.plate[wt, h] == -1)
 										ok = true;
@@ -147,10 +147,10 @@ namespace diplom
 
         static void SetElem(int x, int y, int index)
         {
-            DataStorage.km[index].x = x; DataStorage.km[index].y = y; //задаются координаты элемента
+            DataStorage.cm[index].x = x; DataStorage.cm[index].y = y; //задаются координаты элемента
 
-            int max1 = (y + DataStorage.km[index].Height); //пределы для цикла
-            int max2 = (x + DataStorage.km[index].Width);
+            int max1 = (y + DataStorage.cm[index].Height); //пределы для цикла
+            int max2 = (x + DataStorage.cm[index].Width);
 
             for (int wt = x; wt < max2; wt++)
             {
@@ -160,15 +160,15 @@ namespace diplom
                 }
             }
 
-            DataStorage.km[index].used = index + 1; //метка о том, что элемент размещен
+            DataStorage.cm[index].used = index + 1; //метка о том, что элемент размещен
 
-            if (DataStorage.km[index].Height < DataStorage.km[index].Width) //горизонтально
+            if (DataStorage.cm[index].Height < DataStorage.cm[index].Width) //горизонтально
             {
-                DataStorage.km[index].isVertical = false;
+                DataStorage.cm[index].isVertical = false;
             }
             else
             {
-                DataStorage.km[index].isVertical = true;
+                DataStorage.cm[index].isVertical = true;
             }
         }
 
@@ -179,7 +179,7 @@ namespace diplom
 
             for (int j = 0; j < DataStorage.N; j++)
             {
-                DataStorage.km[j].Refresh();
+                DataStorage.cm[j].Refresh();
             }
             int index = -1;
             for (int j = 0; j < DataStorage.N; j++)
@@ -190,7 +190,7 @@ namespace diplom
                         {
                             index = IndexOfMaxKM(p1); //Самый большой из неразмещенных элементов
 
-                            if (DataStorage.km[index].Height > DataStorage.km[index].Width) //горизонтально
+                            if (DataStorage.cm[index].Height > DataStorage.cm[index].Width) //горизонтально
                             {
                                 Rotate(index);
                             }
@@ -201,7 +201,7 @@ namespace diplom
                     case 2:
                         {
                             index = IndexOfMaxKM(p1);
-                            if (DataStorage.km[index].Height < DataStorage.km[index].Width)
+                            if (DataStorage.cm[index].Height < DataStorage.cm[index].Width)
                             {
                                 Rotate(index);
                             }
@@ -211,7 +211,7 @@ namespace diplom
                     case 3:
                         {
                             index = IndexOfMinKM(p1);
-                            if (DataStorage.km[index].Height > DataStorage.km[index].Width)
+                            if (DataStorage.cm[index].Height > DataStorage.cm[index].Width)
                             {
                                 Rotate(index);
                             }
@@ -221,7 +221,7 @@ namespace diplom
                     case 4:
                         {
                             index = IndexOfMinKM(p1);
-                            if (DataStorage.km[index].Height < DataStorage.km[index].Width)
+                            if (DataStorage.cm[index].Height < DataStorage.cm[index].Width)
                             {
                                 Rotate(index);
                             }
@@ -229,15 +229,15 @@ namespace diplom
                             break;
                         }
                 }
-                if (DataStorage.km[index].isVertical)
+                if (DataStorage.cm[index].isVertical)
                 {
-                    if (plateHeight < DataStorage.km[index].y + DataStorage.km[index].Height)
-                        plateHeight = DataStorage.km[index].y + DataStorage.km[index].Height;
+                    if (plateHeight < DataStorage.cm[index].y + DataStorage.cm[index].Height)
+                        plateHeight = DataStorage.cm[index].y + DataStorage.cm[index].Height;
                 }
                 else
                 {
-                    if (plateHeight < DataStorage.km[index].y + DataStorage.km[index].Width)
-                        plateHeight = DataStorage.km[index].y + DataStorage.km[index].Width;
+                    if (plateHeight < DataStorage.cm[index].y + DataStorage.cm[index].Width)
+                        plateHeight = DataStorage.cm[index].y + DataStorage.cm[index].Width;
                 }
             }
             PP.Height = plateHeight;
@@ -257,7 +257,7 @@ namespace diplom
 
             for (int j = 0; j < DataStorage.N; j++)
             {
-                DataStorage.km[j].Refresh();
+                DataStorage.cm[j].Refresh();
             }
 
             for (int j = 0; j < DataStorage.N; j++)
@@ -267,7 +267,7 @@ namespace diplom
                     case 1:
                         {
                             int index = IndexOfMaxKM(p1); //Самый большой из неразмещенных элементов
-                            if (DataStorage.km[index].Height > DataStorage.km[index].Width) //горизонтально
+                            if (DataStorage.cm[index].Height > DataStorage.cm[index].Width) //горизонтально
                             {
                                 Rotate(index);
                             }
@@ -277,7 +277,7 @@ namespace diplom
                     case 2:
                         {
                             int index = IndexOfMaxKM(p1);
-                            if (DataStorage.km[index].Height < DataStorage.km[index].Width)
+                            if (DataStorage.cm[index].Height < DataStorage.cm[index].Width)
                             {
                                 Rotate(index);
                             }
@@ -287,7 +287,7 @@ namespace diplom
                     case 3:
                         {
                             int index = IndexOfMinKM(p1);
-                            if (DataStorage.km[index].Height > DataStorage.km[index].Width)
+                            if (DataStorage.cm[index].Height > DataStorage.cm[index].Width)
                             {
                                 Rotate(index);
                             }
@@ -297,7 +297,7 @@ namespace diplom
                     case 4:
                         {
                             int index = IndexOfMinKM(p1);
-                            if (DataStorage.km[index].Height < DataStorage.km[index].Width)
+                            if (DataStorage.cm[index].Height < DataStorage.cm[index].Width)
                             {
                                 Rotate(index);
                             }
@@ -316,14 +316,14 @@ namespace diplom
             for (int i = 0; i < DataStorage.N; i++)
                 for (int j = i + 1; j < DataStorage.N; j++)
                 {
-                    fx = Math.Pow(DataStorage.km[i].x + (double)DataStorage.km[i].Width / 2 - DataStorage.km[j].x + (double)DataStorage.km[j].Width / 2, 2);
-                    fy = Math.Pow(DataStorage.km[i].y + (double)DataStorage.km[i].Height / 2 - DataStorage.km[j].y + (double)DataStorage.km[j].Height / 2, 2);
+                    fx = Math.Pow(DataStorage.cm[i].x + (double)DataStorage.cm[i].Width / 2 - DataStorage.cm[j].x + (double)DataStorage.cm[j].Width / 2, 2);
+                    fy = Math.Pow(DataStorage.cm[i].y + (double)DataStorage.cm[i].Height / 2 - DataStorage.cm[j].y + (double)DataStorage.cm[j].Height / 2, 2);
                     d = Math.Sqrt(fx + fy);
                     if (DataStorage.C[i, j] != 0)
                     {
                         F1 += d * DataStorage.C[i, j];
                     }
-                    F2 += d * Math.Abs((DataStorage.km[i].pwDissipation - DataStorage.km[j].pwDissipation));
+                    F2 += d * Math.Abs((DataStorage.cm[i].pwDissipation - DataStorage.cm[j].pwDissipation));
                 }
             double F = (DataStorage.p1 * F1 + DataStorage.p2 * F2); // получить аддитивную функцию от двух частных критериев
             return F;
@@ -336,14 +336,14 @@ namespace diplom
             for (int i = 0; i < DataStorage.N; i++)
                 for (int j = i + 1; j < DataStorage.N; j++)
                 {
-                    fx = Math.Pow(DataStorage.km[i].x + (double)DataStorage.km[i].Width / 2 - DataStorage.km[j].x + (double)DataStorage.km[j].Width / 2, 2);
-                    fy = Math.Pow(DataStorage.km[i].y + (double)DataStorage.km[i].Height / 2 - DataStorage.km[j].y + (double)DataStorage.km[j].Height / 2, 2);
+                    fx = Math.Pow(DataStorage.cm[i].x + (double)DataStorage.cm[i].Width / 2 - DataStorage.cm[j].x + (double)DataStorage.cm[j].Width / 2, 2);
+                    fy = Math.Pow(DataStorage.cm[i].y + (double)DataStorage.cm[i].Height / 2 - DataStorage.cm[j].y + (double)DataStorage.cm[j].Height / 2, 2);
                     d = Math.Sqrt(fx + fy);
                     if (DataStorage.C[i, j] != 0)
                     {
                         F1 += d * DataStorage.C[i, j];
                     }
-                    F2 += d * Math.Abs((DataStorage.km[i].pwDissipation - DataStorage.km[j].pwDissipation));
+                    F2 += d * Math.Abs((DataStorage.cm[i].pwDissipation - DataStorage.cm[j].pwDissipation));
                 }
             if (F1 < DataStorage.F1Min)
                 DataStorage.F1Min = F1;

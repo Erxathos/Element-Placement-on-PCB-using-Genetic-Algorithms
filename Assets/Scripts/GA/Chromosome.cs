@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace diplom
+namespace GeneticAlgorithm
 {
     internal class Chromosome
     {

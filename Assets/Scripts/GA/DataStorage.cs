@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace diplom
+namespace GeneticAlgorithm
 {
     public static class DataStorage
     {
-        /*КОНСТРУКТИВНЫЕ МОДУЛИ*/
+        /*CONSTRUCTIVE MODULES*/
         /// <summary>
-        /// Количество элементов
+        /// Number of elements
         /// </summary>
         static public int N;
         /// <summary>
-        /// Массив элементов для размещения
+        /// Array of constructive modules
         /// </summary>
-        static public CircuitElement[] km { get; set; }
+        static public CircuitElement[] cm { get; set; }
         /// <summary>
         /// Матрица смежности
         /// </summary>
@@ -30,29 +30,29 @@ namespace diplom
         static public int CurrentPlate;
         static public List<List<int>> PlateNumbers = new List<List<int>>();
 
-        /*НАСТРОЙКИ ГЕНЕТИЧЕСКОГО АЛГОРИТМА*/
+        /*PARAMETERS OF THE GENETIC ALGORITHM*/
         /// <summary>
-        /// Количество особей в популяции
+        /// Number of persons in the population
         /// </summary>
         static public int NPer = 20;
         /// <summary>
-        /// Вероятность скрещивания
+        /// Crossingover probability
         /// </summary>
         static public double PCross = 0.5;
         /// <summary>
-        /// Вероятность мутации
+        /// Mutation probability
         /// </summary>
         static public double PMut = 0.1; 
         /// <summary>
-        /// Количество потомков
+        /// Number of descedants
         /// </summary>
         static public int NCross = Convert.ToInt32(NPer * PCross);
         /// <summary>
-        /// Количество мутируемых особей
+        /// Number of persons that mutated
         /// </summary>
         static public int NMut = Convert.ToInt32(NPer * PMut);
         /// <summary>
-        /// Лучшее значение фитнесс функции
+        /// Best value of the fitness function
         /// </summary>
         static public double Best = double.MaxValue;
         /// <summary>

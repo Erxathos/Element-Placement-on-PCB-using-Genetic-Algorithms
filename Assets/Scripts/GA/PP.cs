@@ -1,4 +1,4 @@
-﻿namespace diplom
+﻿namespace GeneticAlgorithm
 {
     static public class PP
     {
