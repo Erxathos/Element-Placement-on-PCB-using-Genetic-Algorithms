@@ -33,3 +33,4 @@ Assets/AssetStoreTools*
 .vs/
 #Nuget packages folder
 packages/
+/Temp

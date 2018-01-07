@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+//this class is used to make screenshots
 public class HiResScreenShots : MonoBehaviour
 {
     public int resWidth = 2550;
     public int resHeight = 3300;
+    static Vector3 camera_pos;
 
     private static bool takeHiResShot = false;
 
@@ -16,9 +17,10 @@ public class HiResScreenShots : MonoBehaviour
         System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
     }
 
-    public static void TakeHiResShot()
+    public static void TakeHiResShot(Vector3 pos)
     {
         takeHiResShot = true;
+        camera_pos = pos;
     }
 
     void LateUpdate()
@@ -26,9 +28,11 @@ public class HiResScreenShots : MonoBehaviour
         takeHiResShot |= Input.GetKeyDown("k");
         if (takeHiResShot)
         {
-            Vector3 t = transform.localPosition;
-            Quaternion t1 = transform.localRotation;
-            transform.localPosition = new Vector3(GeneticAlgorithm.PP.Width / 2, GeneticAlgorithm.PP.Height / 2);
+            //remember the data to return the camera to previous position
+            Vector3 previous_pos = transform.localPosition;
+            Quaternion previous_rotation = transform.localRotation;
+
+            transform.localPosition = camera_pos; //new position
             transform.localRotation = new Quaternion(0, 0, 0, 0);
 
             RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
@@ -43,11 +47,14 @@ public class HiResScreenShots : MonoBehaviour
             byte[] bytes = screenShot.EncodeToPNG();
             string filename = ScreenShotName(resWidth, resHeight);
             System.IO.File.WriteAllBytes(filename, bytes);
-            View.DebugText(string.Format("Сборочный чертеж сохранен: {0}", filename));
+
+            View.DebugText(string.Format("Assembling draft is saved as {0}", filename));
+
             takeHiResShot = false;
 
-            transform.localPosition = t;
-            transform.localRotation = t1;
+            //return the camera position
+            transform.localPosition = previous_pos;
+            transform.localRotation = previous_rotation;
         }
     }
 }

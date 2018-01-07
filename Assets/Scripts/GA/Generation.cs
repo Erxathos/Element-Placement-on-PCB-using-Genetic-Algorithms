@@ -100,12 +100,12 @@ namespace GeneticAlgorithm
 					break; //выход из цикла
 				for (int w = 0; w < (PP.Width - DataStorage.cm[index].Width); w++) //по горизонтали
 				{
-					if (PP.plate[w, h] == -1) //если не занято
+					if (PP.Plate[w, h] == -1) //если не занято
 					{
-						if (PP.plate[w, h + DataStorage.cm[index].Height - 1] == -1)
+						if (PP.Plate[w, h + DataStorage.cm[index].Height - 1] == -1)
 							for (int ht = h; ht < (h + DataStorage.cm[index].Height); ht++) //по вертикали
 							{
-								if (PP.plate[w, ht] == -1) //если не занято
+								if (PP.Plate[w, ht] == -1) //если не занято
 									ok = true;
 								else //если занято
 								{
@@ -119,10 +119,10 @@ namespace GeneticAlgorithm
 						}
 						if (ok) //если по вертикали было свободно
 						{
-							if (PP.plate[w + DataStorage.cm[index].Width - 1, h] == -1)
+							if (PP.Plate[w + DataStorage.cm[index].Width - 1, h] == -1)
 								for (int wt = w; wt < (w + DataStorage.cm[index].Width); wt++) //по горизонтали
 								{
-									if (PP.plate[wt, h] == -1)
+									if (PP.Plate[wt, h] == -1)
 										ok = true;
 									else
 									{
@@ -156,7 +156,7 @@ namespace GeneticAlgorithm
             {
                 for (int ht = y; ht < max1; ht++)
                 {
-                    PP.plate[wt, ht] = index; //на ДРП занимается место
+                    PP.Plate[wt, ht] = index; //на ДРП занимается место
                 }
             }
 

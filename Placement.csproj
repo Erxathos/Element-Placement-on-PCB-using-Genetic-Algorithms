@@ -249,10 +249,10 @@
     <Compile Include="Assets\Scripts\GA\Person.cs" />
     <Compile Include="Assets\Scripts\GA\PP.cs" />
     <Compile Include="Assets\Scripts\HiResScreenShots.cs" />
-    <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\Rays.cs" />
     <Compile Include="Assets\Scripts\SQLite.cs" />
     <Compile Include="Assets\Scripts\View.cs" />
+    <Compile Include="Assets\Scripts\СameraScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Font_Shader.shader" />

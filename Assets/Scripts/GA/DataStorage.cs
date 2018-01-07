@@ -15,16 +15,13 @@ namespace GeneticAlgorithm
         /// </summary>
         static public CircuitElement[] cm { get; set; }
         /// <summary>
-        /// Матрица смежности
+        /// Adjacency matrix
         /// </summary>
         static public int[,] C { get; set; }
         /// <summary>
-        /// Список названий моделей элементов для отрисовки
+        /// List of names of the elements
         /// </summary>
         static public List<string> caseNames = new List<string>();
-        /// <summary>
-        /// 
-        /// </summary>
         static public int CurrentProject;
         static public List<string> ProjectNames = new List<string>();
         static public int CurrentPlate;
@@ -56,11 +53,7 @@ namespace GeneticAlgorithm
         /// </summary>
         static public double Best = double.MaxValue;
         /// <summary>
-        /// Индекс лучшего поколения для получения скорости сходимости алгоритма
-        /// </summary>
-        static public int IndexBest { get; set; }
-        /// <summary>
-        /// Лучшая особь для декодирования
+        /// The best person
         /// </summary>
         static public Person BestPerson { get; set; }
 
@@ -68,7 +61,6 @@ namespace GeneticAlgorithm
         {
             NCross = Convert.ToInt32(NPer * PCross);
             NMut = Convert.ToInt32(NPer * PMut);
-            IndexBest = 0;
             BestPerson = null;
             Best = double.MaxValue;
         }

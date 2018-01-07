@@ -33,14 +33,14 @@ public class View : MonoBehaviour
         SaveButton.interactable = false;
         TButton.interactable = false;
         DebugTxt = GameObject.Find("Log_label").GetComponent("Text") as Text;
-        Messenger.AddListener(GameEvent.GUI_UPDATED, ShowElements);
-
         project_num.ClearOptions();
         plate_num.ClearOptions();
 
         SQLite.LoadProjectNames(); SQLite.LoadPlates();
 
-        foreach(string project in DataStorage.ProjectNames)
+        Messenger.AddListener(GameEvent.GUI_UPDATED, ShowElements);
+
+        foreach (string project in DataStorage.ProjectNames)
             project_num.options.Add(new Dropdown.OptionData() { text = (string)project });
         if (project_num.options.Count > 0)
         {
@@ -126,7 +126,8 @@ public class View : MonoBehaviour
             Elem.gameObject.name = i.ToString();
             Elem.Find("Label").GetComponent<TextMesh>().text = DataStorage.cm[i].Name;
         }
-        HiResScreenShots.TakeHiResShot();
+
+        HiResScreenShots.TakeHiResShot(new Vector3(PP.Width / 2, PP.Height / 2));
         SaveButton.interactable = false;
     }
 
@@ -141,7 +142,7 @@ public class View : MonoBehaviour
     }
 
     public Transform elemT;
-    public void viewTM() //Thermal map button
+    public void ViewTM() //Thermal map button
     {
         if (!T) //if thermal map is not showing
         {
@@ -180,7 +181,7 @@ public class View : MonoBehaviour
         Plate.localScale = new Vector3(PP.Width, PP.Height, 1);
     }
 
-    public void projectChanged()
+    public void ProjectChanged()
     {
         DataStorage.CurrentProject = project_num.value + 1;
         DataStorage.CurrentPlate = 1;
@@ -197,12 +198,12 @@ public class View : MonoBehaviour
         }
     }
 
-    public void plateChanged()
+    public void PlateChanged()
     {
         DataStorage.CurrentPlate = plate_num.value + 1;
     }
 
-    public void criterionChanged()
+    public void CriterionChanged()
     {
         DataStorage.p2 = DataStorage.p2_start * criterion.value;
         DataStorage.p1 = (1 - criterion.value) * DataStorage.p1_start;
@@ -241,7 +242,7 @@ public class View : MonoBehaviour
         DataStorage.PMut = int.Parse(PMut.text);
     }
 
-    public void showHideSettingsMenu()
+    public void ShowHideSettingsMenu()
     {
         SettingsMenu.SetActive(!SettingsMenu.activeSelf);
     }

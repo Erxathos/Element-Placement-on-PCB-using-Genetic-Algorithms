@@ -3,7 +3,7 @@ using Mono.Data.Sqlite;
 using System.Data;
 using UnityEngine;
 using System.IO;
-
+//used to load the data from SQL DataBase
 public class SQLite : MonoBehaviour
 {
     private static IDbConnection dbcon;
@@ -29,13 +29,9 @@ public class SQLite : MonoBehaviour
 		File.Copy(loadDb, filepath);
 		}
 #endif
-        connection = "URI=file:" + filepath; // we set the connection to our database
+        connection = "URI=file:" + filepath;
         dbcon = new SqliteConnection(connection);
         dbcon.Open();
-    }
-
-    void Start()
-    {
     }
 
     public void LoadDataFromDB()
@@ -43,15 +39,15 @@ public class SQLite : MonoBehaviour
         try
         {
             OpenDB("placement.bytes");
-            sendCmd("PRAGMA foreign_keys = ON");
+            SendCmd("PRAGMA foreign_keys = ON");
 
             LoadData(DataStorage.CurrentProject, DataStorage.CurrentPlate);
 
             View.DebugText("Data was loaded successfully. " + System.Environment.NewLine);
-            View.DebugAppendText("Project "+ "\"" + DataStorage.ProjectNames[DataStorage.CurrentProject - 1] + "\", " + "plate " + DataStorage.CurrentPlate + System.Environment.NewLine);
+            View.DebugAppendText("Project "+ "\"" + DataStorage.ProjectNames[DataStorage.CurrentProject - 1] 
+                + "\", " + "plate " + DataStorage.CurrentPlate + System.Environment.NewLine);
             View.DebugAppendText("Number of elements: " + DataStorage.cm.Length + System.Environment.NewLine);
             View.DebugAppendText("PCB width: " + PP.Width);
-
         }
         catch (System.Exception e)
         {
@@ -69,7 +65,7 @@ public class SQLite : MonoBehaviour
         try
         {
             OpenDB("placement.bytes");
-            sendCmd("PRAGMA foreign_keys = ON");
+            SendCmd("PRAGMA foreign_keys = ON");
 
             IDbCommand dbcmd = dbcon.CreateCommand();
 
@@ -99,7 +95,7 @@ public class SQLite : MonoBehaviour
         try
         {
             OpenDB("placement.bytes");
-            sendCmd("PRAGMA foreign_keys = ON");
+            SendCmd("PRAGMA foreign_keys = ON");
 
             for (int i = 0; i < DataStorage.ProjectNames.Count; i++)
             {
@@ -160,7 +156,7 @@ public class SQLite : MonoBehaviour
             PP.Height = reader.GetInt32(1);
         }
         reader.Close();
-        PP.plate = new int[PP.Width, PP.Height];
+        PP.Plate = new int[PP.Width, PP.Height];
 
         sqlQuery = "SELECT Chain.Element1, Chain.Element2 FROM Chain WHERE (Chain.Project_Number = " + numProject + ");";
         dbcmd.CommandText = sqlQuery;
@@ -179,7 +175,7 @@ public class SQLite : MonoBehaviour
         dbcmd = null;
     }
 
-    static void sendCmd(string cmd)
+    static void SendCmd(string cmd)
     {
         IDbCommand dbcmd = dbcon.CreateCommand();
         string sqlQuery = cmd;

@@ -59,8 +59,8 @@ namespace GeneticAlgorithm
                 }
 
                 else cnt++;
-                if (cnt == waitFor)
-                    DataStorage.IndexBest = i - cnt;
+                //if (cnt == waitFor)
+                //    IndexBest = i - cnt; //convergence of the algorithm
             }
             Generation.Decode(DataStorage.BestPerson); //decode the best solution
             sWatch.Stop();
