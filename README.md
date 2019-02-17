@@ -1,12 +1,8 @@
-# Placement 
+# Automated placement of constructive elements on PCB
 
-This is my bachelor diploma project. 
+The program was developed in 2016 using Unity3d and C# as a bachelor project. It uses genetic algorithm to place elements on a PCB.
 
-Placement of constructive elements on a printed circuit board using genetical algorithm. 
+There are two criteria to place elements: power dissipation (the heat dissipation of the elements should not damage nearby elements) and the total length of interconnections (should be as small as possible).
 
-The program was developed in 2016 using Unity3d and C# implementation of the genetical algorithm. 
-
-In Unity GUI and 3d visualisation of the result are realized.
-
-Two criteria are used to place elements: power dissipation (the heat dissipation of the elements
-should not damage nearby elements) and the total length of interconnections (should be small as possible).
+## Program screenshot
+<center><img src="Screenshot.png" ></center>
