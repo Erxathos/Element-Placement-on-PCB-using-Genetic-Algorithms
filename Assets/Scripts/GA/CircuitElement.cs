@@ -5,7 +5,7 @@ namespace GeneticAlgorithm
     public class CircuitElement
     {
         /// <summary>
-        /// Получает или задает длину элемента
+        /// Get or set elem's height
         /// </summary>
         public int Height { get; set; }
         /// <summary>
